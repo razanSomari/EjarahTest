@@ -22,7 +22,7 @@ public class Timeline extends AppCompatActivity {
         posts.add(new Post("HELLOOOOO","anyone has a calcluse book?",20));
         posts.add(new Post("Marrihan","I need a phone charger",88));
         posts.add(new Post("jawaher","anyone interrested in creating apps?",23));
-        posts.add(new Post("Mohammed","welkfjlekrqkrmqkmwe",20));
+        posts.add(new Post("amerah","welkfjlekrqkrmqkmwe",20));
         posts.add(new Post("Mohammed","esgfafeqr qr r ",20));
         posts.add(new Post("Sarah","qr qr qr ",20));
         posts.add(new Post("Mona","qrr qrgt",20));
