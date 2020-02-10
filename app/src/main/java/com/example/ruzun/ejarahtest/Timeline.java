@@ -19,7 +19,7 @@ public class Timeline extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         ArrayList<Post> posts = new ArrayList<Post>();
-        posts.add(new Post("m","anyone has a calcluse book?",20));
+        posts.add(new Post("HELLOOOOO","anyone has a calcluse book?",20));
         posts.add(new Post("Marrihan","I need a phone charger",88));
         posts.add(new Post("jawaher","anyone interrested in creating apps?",23));
         posts.add(new Post("Mohammed","welkfjlekrqkrmqkmwe",20));
