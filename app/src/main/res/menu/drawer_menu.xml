@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/ic_account"
+            android:title="profile" />
+
+        <item
+            android:id="@+id/nav_level"
+            android:icon="@drawable/ic_diamond"
+            android:title="Level" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings" />
+    </group>
+
+    <item android:title="communicate">
+    <menu>
+        <group>
+            <item
+                android:id="@+id/nav_helpCenter"
+                android:icon="@drawable/ic_helpcenter"
+                android:title="Help Center" />
+        </group>
+    </menu>
+    </item>
+
+</menu>
