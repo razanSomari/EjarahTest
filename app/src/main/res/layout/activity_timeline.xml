@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".Timeline"
-    android:id="@+id/drawer"
-
+    android:fitsSystemWindows="true"
     >
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"

@@ -1,6 +1,7 @@
 package com.example.ruzun.ejarahtest;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -13,13 +14,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.logging.Level;
+
 public class UserPanel extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_panel);
+        setContentView(R.layout.activity_nav);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -80,20 +84,20 @@ public class UserPanel extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_account) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new profile()).commit();
+        } else if (id == R.id.nav_level) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new level()).commit();
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_settings) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new settings()).commit();
+        } else if (id == R.id.nav_helpCenter) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new helpCenter()).commit();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
