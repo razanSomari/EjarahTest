@@ -1,5 +1,6 @@
 package com.example.ruzun.ejarahtest;
 
+import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,13 +17,13 @@ public class Timeline extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-
+    final static ArrayList<Post> posts = new ArrayList<Post>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
-        final ArrayList<Post> posts = new ArrayList<Post>();
+
         posts.add(new Post("HELLOOOOO","anyone has a calcluse book?",20));
         posts.add(new Post("Marrihan","I need a phone charger",88));
         posts.add(new Post("jawaher","anyone interrested in creating apps?",23));
@@ -47,7 +48,14 @@ public class Timeline extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Post post = posts.get(position);
-                Toast.makeText(Timeline.this, "Toast Message", Toast.LENGTH_LONG).show();
+
+                Intent i = new Intent(Timeline.this, PostActivity.class);
+                i.putExtra("CONTENT", post.getContent());
+                i.putExtra("NAME", post.getUsername());
+
+                startActivity(i);
+
+
 
             }
         });
