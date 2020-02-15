@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "472956137110",
+    "firebase_url": "https://ejarah-7da1d.firebaseio.com",
+    "project_id": "ejarah-7da1d",
+    "storage_bucket": "ejarah-7da1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472956137110:android:3369aaaa96c4d02a835cb7",
+        "android_client_info": {
+          "package_name": "com.example.ruzun.ejarahtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472956137110-jkci8f00neo4aviac943l4k5k2eev6jr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ruzun.ejarahtest",
+            "certificate_hash": "835b8df8ad4bee8fb98439f93c99d730d298ed9a"
+          }
+        },
+        {
+          "client_id": "472956137110-9q9o8j5n0c7lvl1tp0add18uildmavna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMMO0J8G2721nNxJES403P4FWgdKrRldk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472956137110-9q9o8j5n0c7lvl1tp0add18uildmavna.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
