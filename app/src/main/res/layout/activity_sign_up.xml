@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#fff"
     tools:context=".SignUp">
 
     <LinearLayout
@@ -29,12 +30,20 @@
             >
 
             <EditText
+                android:id="@+id/editTextName"
+                android:padding="8dp"
+                android:background="@drawable/round_border_up"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="Name"/>
+            <EditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:padding="8dp"
-                android:background="@drawable/round_border_up"
+                android:background="@drawable/unround_border"
                 android:hint="E-Mail"/>
             <EditText
                 android:id="@+id/editTextPassword"
@@ -46,6 +55,7 @@
                 android:layout_weight="1"
 
                 android:hint="Password"/>
+
             <EditText
                 android:id="@+id/editTextConfirmPassword"
                 android:inputType="textPassword"
@@ -67,6 +77,7 @@
         android:layout_weight="1">
 
         <Button
+            android:id="@+id/buttonSignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -90,6 +101,7 @@
                 android:textColor="#000"
                 android:text="Already have an account?"/>
             <TextView
+                android:id="@+id/textViewLogIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"

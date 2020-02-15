@@ -81,7 +81,7 @@ public class UserPanel extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        /*Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_account) {
@@ -99,7 +99,7 @@ public class UserPanel extends AppCompatActivity
                     new helpCenter()).commit();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.START);*/
         return true;
     }
 }

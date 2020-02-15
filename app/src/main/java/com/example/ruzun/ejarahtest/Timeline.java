@@ -39,9 +39,11 @@ public class Timeline extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
+        /*
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
+         */
 
     }
 }
