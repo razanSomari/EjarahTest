@@ -17,35 +17,35 @@
         android:textAlignment="center"
         android:textSize="22dp"
         tools:layout_editor_absoluteX="78dp"
-        tools:layout_editor_absoluteY="14dp" />
+        tools:layout_editor_absoluteY="45dp" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-        tools:layout_editor_absoluteX="17dp"
-        tools:layout_editor_absoluteY="25dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="57dp" />
 
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_send"
-        tools:layout_editor_absoluteX="340dp"
-        tools:layout_editor_absoluteY="23dp" />
+        tools:layout_editor_absoluteX="339dp"
+        tools:layout_editor_absoluteY="57dp" />
 
     <EditText
         android:id="@+id/editText2"
-        android:layout_width="369dp"
-        android:layout_height="528dp"
+        android:layout_width="364dp"
+        android:layout_height="426dp"
         android:ems="10"
+        android:hint="I need help ..."
         android:inputType="textPersonName"
         android:text=""
-        android:hint="I need help ..."
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="22dp"
-        tools:layout_editor_absoluteY="98dp" />
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="133dp" />
 
     <EditText
         android:id="@+id/editText3"
@@ -54,17 +54,16 @@
         android:ems="10"
         android:hint="Add Tag.."
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="22dp"
-        tools:layout_editor_absoluteY="650dp" />
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="583dp" />
 
     <ImageButton
         android:id="@+id/imageButton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_gallery"
-        tools:layout_editor_absoluteX="336dp"
-        tools:layout_editor_absoluteY="652dp" />
+        tools:layout_editor_absoluteX="334dp"
+        tools:layout_editor_absoluteY="583dp" />
 
 
-
-    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

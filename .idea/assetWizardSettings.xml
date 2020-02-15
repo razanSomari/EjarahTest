@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_help_outline_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_mode_comment_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -34,8 +34,8 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="d1d1d1" />
-                            <entry key="outputName" value="ic_helpcenter" />
-                            <entry key="sourceFile" value="C:\Users\Amerah Al-gaidi\Downloads\diamond.svg" />
+                            <entry key="outputName" value="comment" />
+                            <entry key="sourceFile" value="$APPLICATION_HOME_DIR$/bin/C:\Users\Amerah Al-gaidi\Downloads\diamond.svg" />
                           </map>
                         </option>
                       </PersistentState>
