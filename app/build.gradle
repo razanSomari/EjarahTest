@@ -36,7 +36,24 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:11.8.0'
     implementation 'com.google.firebase:firebase-auth:11.8.0'
     implementation 'com.google.firebase:firebase-database:11.8.0'
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
+
+    //implementation 'com.karumi:dexter:6.0.2'
+
+
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+
+/*
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.3.0'
+            }
+        }
+    }
+}*/
