@@ -4,9 +4,9 @@
     package="com.example.ruzun.ejarahtest"
     tools:ignore="ExtraText">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>  <!-- city block -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>  &lt;!&ndash; city block &ndash;&gt;
+    <uses-permission android:name="android.permission.INTERNET"/>-->
 
 
     <application
