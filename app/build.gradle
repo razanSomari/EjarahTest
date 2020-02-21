@@ -40,6 +40,9 @@ dependencies {
 
     //library for permissions
     implementation 'com.nabinbhandari.android:permissions:3.8'
+    //Realtime location queries with Firebase
+    implementation 'com.firebase:geofire-android:2.1.1'
+
 
 
 }

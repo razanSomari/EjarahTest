@@ -92,7 +92,7 @@ public class LogIn extends AppCompatActivity {
                             if(!task.isSuccessful())
                                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                             else{
-                                Toast.makeText(context, "Sucessfully logged in", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(LogIn.this, Timeline.class));
                             }
 
