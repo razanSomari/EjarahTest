@@ -8,16 +8,6 @@
     tools:context=".Timeline"
     android:fitsSystemWindows="true"
     >
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        app:itemTextColor="@color/colorPrimaryDark"
-        app:itemIconTint="@color/colorPrimaryDark"
-        app:menu="@menu/user_panel"
-        android:layout_gravity="start">
-        </android.support.design.widget.NavigationView>
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

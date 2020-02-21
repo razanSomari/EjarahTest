@@ -1,32 +1,41 @@
 package com.example.ruzun.ejarahtest;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
 import java.sql.Time;
 import java.util.ArrayList;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class Timeline extends AppCompatActivity {
+public class Timeline extends AppCompatActivity  {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+
     private FusedLocationProviderClient fusedLocationClient;
+    private LocationRequest locationRequest;
+
+
 
 
     @Override
@@ -34,7 +43,7 @@ public class Timeline extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
-        requestPermission();
+        callPermissions();
 
         final ArrayList<Post> posts = new ArrayList<Post>();
         posts.add(new Post("HELLOOOOO", "anyone has a calcluse book?", 20));
@@ -69,39 +78,44 @@ public class Timeline extends AppCompatActivity {
         });
 
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    }
+    public void callPermissions(){
+        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION};
+        Permissions.check(this, permissions, "Location is required to use Ejarah", new Permissions.Options().setSettingsDialogMessage("Warning").setRationaleDialogTitle("Info"), new PermissionHandler() {
+            @Override
+            public void onGranted() {
+                requestLocationUpdates();
+            }
 
-            return;
-        }
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            Toast.makeText(Timeline.this, "Latitude is"+location.getLatitude() +" Longitute is "+location.getLongitude(), Toast.LENGTH_LONG).show();
-
-                        }
-                        else
-                            Toast.makeText(Timeline.this, "Empty", Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        /*
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
-         */
-
-                        }
-
-    private void requestPermission(){
-        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION},1);
+            @Override
+            public void onDenied(Context context, ArrayList<String> deniedPermissions) {
+                super.onDenied(context, deniedPermissions);
+            callPermissions();
+            }
+        });
     }
 
-}
+    public void requestLocationUpdates(){
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(5000); //request location every 5 min 300000
+        locationRequest.setFastestInterval(2000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        fusedLocationClient.requestLocationUpdates(locationRequest,new LocationCallback(){
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                Log.e("Location", "lat: "+locationResult.getLastLocation().getLatitude()+"long: "+locationResult.getLastLocation().getLongitude());
+            }
+        }, getMainLooper());
+    }
+
+
+
+
+
+
+}
