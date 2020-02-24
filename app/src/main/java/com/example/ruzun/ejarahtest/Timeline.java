@@ -43,7 +43,6 @@ public class Timeline extends AppCompatActivity  {
 
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
-    Location userLocation;
     private String userId;
 
     FirebaseDatabase firebaseDatabase;
@@ -142,20 +141,23 @@ public class Timeline extends AppCompatActivity  {
 
     public void getNearbyUsers(Double lat, Double lng){
         userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+        int radius=30;
 
         DatabaseReference nearbyDatabaseReference=FirebaseDatabase.getInstance().getReference().child("userLocation");
         GeoFire geoFire=new GeoFire(nearbyDatabaseReference);
 
-        GeoQuery geoQuery=geoFire.queryAtLocation(new GeoLocation(lat, lng),30); //users in a 30 kilometers
+        GeoQuery geoQuery=geoFire.queryAtLocation(new GeoLocation(lat, lng),radius); //users in a 30 kilometers radius
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
                 //Key Entered: The location of a key now matches the query criteria.
                 //key is userID nearby, location is users location
+                //
                 if(!key.equals(userId)){
+
                     //get all nearby users except me
                     Log.e("nearby user","User "+ key+"is at "+location);
-
+                    //array list of posts attached to key
                 }
 
             }
@@ -163,24 +165,27 @@ public class Timeline extends AppCompatActivity  {
             @Override
             public void onKeyExited(String key) {
             //Key Exited: The location of a key no longer matches the query criteria.
-                //the user has existed the raduis
+                //the user has existed the radius
+                //remove posts from array list
             }
 
             @Override
             public void onKeyMoved(String key, GeoLocation location) {
             //Key Moved: The location of a key changed but the location still matches the query criteria.
-                //user is moving but is still within raduis
+                //user is moving but is still within radius
+                //don't think we'll need this
             }
 
             @Override
             public void onGeoQueryReady() {
             //Query Ready: All current data has been loaded from the server and all initial events have been fired.
-
+            //don't think we'll need this
             }
 
             @Override
             public void onGeoQueryError(DatabaseError error) {
             //Query Error: There was an error while performing this query, e.g. a violation of security rules.
+            //don't think we'll need this
             }
         });
     }
