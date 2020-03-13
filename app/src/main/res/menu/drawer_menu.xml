@@ -5,30 +5,29 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_account"
-            android:icon="@drawable/ic_account"
-            android:title="profile" />
-
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
         <item
             android:id="@+id/nav_level"
             android:icon="@drawable/ic_diamond"
             android:title="Level" />
 
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="Settings" />
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_search"
+            android:title="search" />
     </group>
 
     <item android:title="communicate">
-    <menu>
-        <group>
-            <item
-                android:id="@+id/nav_helpCenter"
-                android:icon="@drawable/ic_helpcenter"
-                android:title="Help Center" />
-        </group>
-    </menu>
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/nav_language"
+                    android:icon="@drawable/ic_language"
+                    android:title="language" />
+            </group>
+        </menu>
     </item>
 
 </menu>

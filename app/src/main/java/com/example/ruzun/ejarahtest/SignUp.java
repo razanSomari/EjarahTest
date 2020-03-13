@@ -103,7 +103,7 @@ public class SignUp extends AppCompatActivity {
                                 user.setUserID(key);
                                 databaseReference.child("User").child(key).setValue(user);
                                 Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignUp.this, Timeline.class));
+                                startActivity(new Intent(SignUp.this, MainActivity.class));
 
                             }
                         }

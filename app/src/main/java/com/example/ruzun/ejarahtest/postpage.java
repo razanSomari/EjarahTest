@@ -41,7 +41,7 @@ public class postpage extends AppCompatActivity {
                 } else if (edit1.getText().equals("")) {
                     Toast.makeText(context, "Please enter your problem", Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent i = new Intent(getApplicationContext(),Timeline.class);
+                    Intent i = new Intent(getApplicationContext(),homeFragment.class);
                     startActivity(i);
                 }
 
@@ -55,7 +55,7 @@ public class postpage extends AppCompatActivity {
                     AlertDialog diaBox = AskOption();
                     diaBox.show();
                 }else {
-                    Intent i = new Intent(getApplicationContext(),Timeline.class);
+                    Intent i = new Intent(getApplicationContext(),homeFragment.class);
                     startActivity(i);
                 }
 

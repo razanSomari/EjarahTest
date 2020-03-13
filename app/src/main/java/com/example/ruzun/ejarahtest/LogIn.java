@@ -65,7 +65,7 @@ public class LogIn extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (mFiberbaseUser != null) {
                     Toast.makeText(LogIn.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LogIn.this, Timeline.class));
+                    startActivity(new Intent(LogIn.this, MainActivity.class));
                 } else
                     Toast.makeText(LogIn.this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
@@ -93,7 +93,7 @@ public class LogIn extends AppCompatActivity {
                                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                             else{
                                 Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LogIn.this, Timeline.class));
+                                    startActivity(new Intent(LogIn.this, MainActivity.class));
                             }
 
 

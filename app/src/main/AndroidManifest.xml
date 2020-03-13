@@ -16,11 +16,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Timeline"></activity>
-        <activity
-            android:name=".UserPanel"
-            android:label="@string/title_activity_user_panel"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SignUp"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -32,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PostActivity"></activity>
+        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar"></activity>
 
     </application>
 
