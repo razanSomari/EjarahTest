@@ -4,6 +4,7 @@ public class User {
     private String email;
     private String name;
     private String UserID;
+    private int points;
 
     public User(){
 
@@ -11,10 +12,19 @@ public class User {
     public User(String email, String name){
         this.email = email;
         this.name = name;
+        points = 0;
 
 
     }
 
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public String getEmail() {
         return email;

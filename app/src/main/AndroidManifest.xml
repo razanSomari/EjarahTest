@@ -27,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PostActivity"></activity>
+        <activity android:name=".postpage"></activity>
         <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar"></activity>
 
     </application>

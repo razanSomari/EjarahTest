@@ -5,6 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true">
 
+    <Button
+        android:id="@+id/createPost"
+        android:text="create post"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
