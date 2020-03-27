@@ -34,9 +34,9 @@ public class PostAdapter <T> extends ArrayAdapter<Post> {
 
         Post currentPost = getItem(position);
 
-        TextView username =  listItemView.findViewById(R.id.textview_username);
+        TextView name =  listItemView.findViewById(R.id.textview_username);
 
-        username.setText(currentPost.getUsername());
+        name.setText(currentPost.getName());
 
         TextView content = (TextView) listItemView.findViewById(R.id.textview_content);
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +9,10 @@
     android:background="#fff"
     tools:context=".PostActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_weight="1"
@@ -87,10 +91,24 @@
     </LinearLayout>
 
     <ListView
+        android:id="@+id/replay_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3">
 
     </ListView>
+    </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/replay"
+        android:layout_margin="16dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/create_icon"
+        android:onClick="openDialog"
+        />
+
+
+
+</FrameLayout>
