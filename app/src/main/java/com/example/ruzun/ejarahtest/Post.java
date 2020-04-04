@@ -2,6 +2,10 @@ package com.example.ruzun.ejarahtest;
 
 import android.media.Image;
 
+import com.firebase.geofire.GeoLocation;
+
+import java.util.ArrayList;
+
 public class Post {
     private int points;
     private String username;
@@ -11,11 +15,13 @@ public class Post {
     private String tag;
     private String userid;
     private Image pic;
+    private ArrayList<Double> location;
 
-    public Post(){
+
+
+    Post(){
 
     }
-
     public Post (String username, String content, int points){
         this.content=content;
         this.points=points;
@@ -28,12 +34,13 @@ public class Post {
         this.name=name;
 
     }
-    public Post( String username, String content, String tag,String name ) {
+    public Post( String username, String content, String tag,String name, ArrayList<Double> location ) {
 
         this.username=username;
         this.content=content;
         this.tag=tag;
         this.name=name;
+        this.location = location;
     }
 
     public int getPoints() {
@@ -99,4 +106,13 @@ public class Post {
     public void setName(String name) {
         this.name = name;
     }
+
+    public ArrayList<Double> getLocation() {
+        return location;
+    }
+
+    public void setLocation(ArrayList<Double> location) {
+        this.location = location;
+    }
 }
+

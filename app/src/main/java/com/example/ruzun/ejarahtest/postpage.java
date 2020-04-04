@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +16,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class postpage extends AppCompatActivity {
 
@@ -30,7 +34,8 @@ public class postpage extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     Post Post;
-    User user;
+    User currentUser;
+    UserLocation currentUserLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +44,54 @@ public class postpage extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         username =mFirebaseAuth.getCurrentUser().getEmail();
         context = this;
-        name="user123";
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference=firebaseDatabase.getReference();
 
+        databaseReference.child("User").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
+                    if(user.getEmail()!=null&&username!=null)
+                    {
+                        if(user.getEmail().toLowerCase().equals(username.toLowerCase()))
+                        {
+                            currentUser = user;
+                        }
+                    }
+
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReference.child("userLocation").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    UserLocation userLocation = snapshot.getValue(UserLocation.class);
+                    if(userLocation!=null)
+                    {
+                        if (snapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                            currentUserLocation = userLocation;
+                    }
+
+
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         contant = (EditText) findViewById(R.id.edit1);
         tag = (EditText) findViewById(R.id.tag);
@@ -62,7 +110,7 @@ public class postpage extends AppCompatActivity {
                 text2=tag.getText().toString();
 
 
-                Post P = new Post(username,text1,text2,name);
+                Post P = new Post(username,text1,text2,currentUser.getName(),currentUserLocation.getL());
                 String key = databaseReference.child("Post").push().getKey();
                 P.setPostID(key);
                 databaseReference.child("Post").child(key).setValue(P);

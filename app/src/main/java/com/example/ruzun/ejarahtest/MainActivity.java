@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         GeoFire geoFire=new GeoFire(databaseReference);
         geoFire.setLocation(userId, new GeoLocation(lat, lng));
         getNearbyUsers(lat,lng);
+
     }
 
     public void getNearbyUsers(Double lat, Double lng){
