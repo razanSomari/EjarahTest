@@ -1,23 +1,39 @@
 package com.example.ruzun.ejarahtest;
 
+import android.media.Image;
+
 public class Post {
     private int points;
     private String username;
     private String content;
     private String postID;
     private String name;
-    Post(){
+    private String tag;
+    private String userid;
+    private Image pic;
+
+    public Post(){
 
     }
-    Post (String username, String content, int points){
+
+    public Post (String username, String content, int points){
         this.content=content;
         this.points=points;
         this.username=username;
     }
-    Post (String username, String name, String content){
-        this.content=content;
-        this.name = name;
+    public Post( String username, String content, String name ) {
+
         this.username=username;
+        this.content=content;
+        this.name=name;
+
+    }
+    public Post( String username, String content, String tag,String name ) {
+
+        this.username=username;
+        this.content=content;
+        this.tag=tag;
+        this.name=name;
     }
 
     public int getPoints() {
@@ -32,6 +48,26 @@ public class Post {
         return username;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public Image getPic() {
+        return pic;
+    }
+
+    public String getPostID() {
+        return postID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }
@@ -44,16 +80,20 @@ public class Post {
         this.points = points;
     }
 
-    public String getPostID() {
-        return postID;
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public void setPic(Image pic) {
+        this.pic = pic;
     }
 
     public void setPostID(String postID) {
         this.postID = postID;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
