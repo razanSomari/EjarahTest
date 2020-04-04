@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -23,9 +25,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
@@ -39,25 +43,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private String userId;
+    FirebaseAuth mFirebaseAuth;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     Double lat, lng;
 
+    TextView userNameMenu, userEmailMenu;
+    String currentUserEmail;
+
+    User currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        userEmailMenu = headerView.findViewById(R.id.menu_email);
+        userNameMenu =  headerView.findViewById(R.id.menu_user_name);
+        userEmailMenu.setText("wewew");
+        currentUserEmail = mFirebaseAuth.getCurrentUser().getEmail();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         callPermissions();
 
+        databaseReference.child("User").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
+                    if(user.getEmail()!=null&&currentUserEmail!=null)
+                    {
+                        if(user.getEmail().toLowerCase().equals(currentUserEmail.toLowerCase()))
+                        {
+                            currentUser = user;
+                            setUserNameAndEmailInMenuHeader();
+                        }
+                    }
 
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -212,6 +251,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    void setUserNameAndEmailInMenuHeader(){
+        if(currentUser!=null){
+            userEmailMenu.setText(currentUser.getEmail());
+            userNameMenu.setText(currentUser.getName());
+        }
+
     }
 }
 

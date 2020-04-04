@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
 
@@ -18,7 +18,7 @@
         <RelativeLayout
             android:id="@+id/textLayout"
             android:layout_width="match_parent"
-            android:layout_height="88dp"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:background="#fff"
@@ -26,8 +26,10 @@
 
             <LinearLayout
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+
                 android:layout_width="match_parent"
-                android:layout_height="88dp"
+                android:layout_height="wrap_content"
 
                 android:orientation="vertical"
 
@@ -50,13 +52,19 @@
                     tools:text="username"
 
                     />
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:src="@drawable/diamond"/>
                 <TextView
+                    android:layout_marginLeft="4dp"
                     android:id="@+id/textview_points"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimaryDark"                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginLeft="16dp"
                     tools:text="99"
 
                     />
