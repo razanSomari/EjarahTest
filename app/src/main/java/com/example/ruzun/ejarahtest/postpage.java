@@ -20,10 +20,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class postpage extends AppCompatActivity {
 
-
     EditText contant, tag;
     String text1,text2 ,username , name;
-    ImageButton pic;
+    ImageView pic;
 
     Context context;
 
@@ -36,40 +35,36 @@ public class postpage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_postpage);
         mFirebaseAuth = FirebaseAuth.getInstance();
         username =mFirebaseAuth.getCurrentUser().getEmail();
         context = this;
         name="user123";
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference=firebaseDatabase.getReference();
+
+
         contant = (EditText) findViewById(R.id.edit1);
         tag = (EditText) findViewById(R.id.tag);
 
-        ImageButton pic = findViewById(R.id.addimage);
+        ImageView pic = findViewById(R.id.addimage);
 
-        ImageButton send = findViewById(R.id.send);
-        ImageButton cancel = findViewById(R.id.cancel);
+        ImageView send = findViewById(R.id.send);
+        ImageView cancel = findViewById(R.id.cancel);
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Post");
-        databaseReference=firebaseDatabase.getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         send.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 text1=contant.getText().toString();
                 text2=tag.getText().toString();
 
 
-                Post.setContent(text1);
-                Post.setTag(text2);
-                Post.setUsername(username);
-
-                databaseReference.push().setValue(Post);
-
-                Post P =new Post(username,text1,text2,name);
+                Post P = new Post(username,text1,text2,name);
                 String key = databaseReference.child("Post").push().getKey();
-                P.setUsername(key);
+                P.setPostID(key);
                 databaseReference.child("Post").child(key).setValue(P);
                 Toast.makeText(context, "post sucessfully", Toast.LENGTH_SHORT).show();
 

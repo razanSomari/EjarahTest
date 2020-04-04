@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFirebaseAuth = FirebaseAuth.getInstance();
         userEmailMenu = headerView.findViewById(R.id.menu_email);
         userNameMenu =  headerView.findViewById(R.id.menu_user_name);
-        userEmailMenu.setText("wewew");
         currentUserEmail = mFirebaseAuth.getCurrentUser().getEmail();
 
         Toolbar toolbar = findViewById(R.id.toolbar);

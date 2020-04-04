@@ -26,6 +26,7 @@ public class PostActivity extends AppCompatActivity {
 
     TextView textViewName;
     TextView textViewContent;
+    TextView commentsCount;
 
     FirebaseAuth mFirebaseAuth;
 
@@ -52,7 +53,7 @@ public class PostActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-
+        commentsCount = findViewById(R.id.TextViewPostComments);
         listView = (ListView) findViewById(R.id.replay_list);
 
 
@@ -158,6 +159,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     void dispaly(){
+        commentsCount.setText(replays.size()+"");
         adapter = new PostAdapter<Post>(PostActivity.this,replays);
         listView.setAdapter(adapter);
 

@@ -7,15 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true">
 
-    <ImageView
-        android:id="@+id/createPost"
-        android:layout_margin="16dp"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|right"
-        android:src="@drawable/create_icon"
-        android:onClick="openDialog"
-        />
+
 
     <ListView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,6 +25,13 @@
 
     </ListView>
 
-
+    <ImageView
+        android:id="@+id/createPost"
+        android:layout_margin="16dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/create_icon"
+        />
 
 </FrameLayout>
