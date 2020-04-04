@@ -115,6 +115,7 @@ public class postpage extends AppCompatActivity {
                 P.setPostID(key);
                 databaseReference.child("Post").child(key).setValue(P);
                 Toast.makeText(context, "post sucessfully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(postpage.this, MainActivity.class));
 
             }
         });
