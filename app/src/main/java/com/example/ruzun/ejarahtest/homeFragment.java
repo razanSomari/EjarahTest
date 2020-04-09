@@ -29,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class homeFragment extends Fragment {
 
@@ -66,6 +68,7 @@ public class homeFragment extends Fragment {
         databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                posts.removeAll(posts);
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Post post = snapshot.getValue(Post.class);
                     posts.add(post);
@@ -103,7 +106,7 @@ public class homeFragment extends Fragment {
 
                 Intent i = new Intent(getActivity(),PostActivity.class);
                 i.putExtra("CONTENT", post.getContent());
-                i.putExtra("NAME", post.getUsername());
+                i.putExtra("NAME", post.getName());
                 i.putExtra("POST_ID", post.getPostID());
                 startActivity(i);
             }
@@ -114,6 +117,7 @@ public class homeFragment extends Fragment {
 
 
     void dispaly(){
+        Collections.reverse(posts);
         PostAdapter<Post> adapter = new PostAdapter<Post>(getContext(),posts);
 
         listView.setAdapter(adapter);
