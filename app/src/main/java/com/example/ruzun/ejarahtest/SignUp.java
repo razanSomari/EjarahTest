@@ -89,7 +89,9 @@ public class SignUp extends AppCompatActivity {
                 }
                 else if (!confirmPassword.equals(password))
                     Toast.makeText(context, "Passwords don't match", Toast.LENGTH_SHORT).show();
-                else if (!(email.isEmpty() && password.isEmpty())) {
+                else if (name.isEmpty())
+                    Toast.makeText(context, "Please enter your name", Toast.LENGTH_SHORT).show();
+                else if (!(email.isEmpty() && password.isEmpty() && !name.isEmpty())) {
 
 
                     mFirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {

@@ -139,7 +139,7 @@ public class PostActivity extends AppCompatActivity {
                 String str = input.getText().toString();
                 if (str.length()!=0)
                 {
-                    Post replay = new Post(email,currentUser.getName(),str);
+                    Post replay = new Post(email,str,currentUser.getName());
                     String key = databaseReference.child("Replay").push().getKey();
                     replay.setPostID(postID);
                     databaseReference.child("Replay").child(key).setValue(replay);
