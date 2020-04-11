@@ -4,11 +4,9 @@
     package="com.example.ruzun.ejarahtest"
     tools:ignore="ExtraText">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".searchActivity"></activity>
         <activity
             android:name=".SignUp"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -27,10 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PostActivity"></activity>
-        <activity android:name=".postpage"></activity>
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar"></activity>
-
+        <activity android:name=".PostActivity" />
+        <activity android:name=".postpage" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
