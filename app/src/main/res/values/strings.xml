@@ -11,4 +11,5 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="api_key">AIzaSyD5DTJytVu4T_4DGoj8QGC8RsbJz4ZPVt4</string>
+    <string name="langBtn"> Change Language</string>
 </resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".languageActivity"
+    >
+
+<RadioGroup
+    android:id="@+id/langRG"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+    <RadioButton
+        android:id="@+id/englishRB"
+        android:text="English"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <RadioButton
+        android:id="@+id/arabicRB"
+        android:text="Arabic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RadioGroup>
+<Button
+    android:id="@+id/buttonLang"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="24dp"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:background="@drawable/round_button"
+    android:layout_below="@id/langRG"
+    android:textColor="#fff"
+    android:layout_centerHorizontal="true"
+    android:text="@string/langBtn"/>
+</RelativeLayout>
