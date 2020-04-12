@@ -14,6 +14,7 @@ public class Post {
     private String name;
     private String tag;
     private String userid;
+    private String catogry;
     private Image pic;
     private ArrayList<Double> location;
 
@@ -34,13 +35,14 @@ public class Post {
         this.name=name;
 
     }
-    public Post( String username, String content, String tag,String name, ArrayList<Double> location ) {
+    public Post( String username, String content, String tag,String name, ArrayList<Double> location, String catogry ) {
 
         this.username=username;
         this.content=content;
         this.tag=tag;
         this.name=name;
         this.location = location;
+        this.catogry = catogry;
     }
 
     public int getPoints() {
@@ -113,6 +115,14 @@ public class Post {
 
     public void setLocation(ArrayList<Double> location) {
         this.location = location;
+    }
+
+    public void setCatogry(String catogry) {
+        this.catogry = catogry;
+    }
+
+    public String getCatogry() {
+        return catogry;
     }
 }
 

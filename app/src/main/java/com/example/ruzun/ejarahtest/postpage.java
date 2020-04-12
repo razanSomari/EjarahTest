@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+
 public class postpage extends AppCompatActivity {
 
     EditText contant, tag;
@@ -106,9 +108,16 @@ public class postpage extends AppCompatActivity {
             public void onClick(View v) {
                 text1=contant.getText().toString();
                 text2=tag.getText().toString();
+                String catogry = "";
 
+                ModelAdapter modelAdapter = new ModelAdapter(postpage.this);
+                try {
+                    catogry = modelAdapter.Tokenizing(modelAdapter.preprocessing(text1));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Post P = new Post(username,text1,text2,currentUser.getName(),currentUserLocation.getL(),catogry);
 
-                Post P = new Post(username,text1,text2,currentUser.getName(),currentUserLocation.getL());
                 String key = databaseReference.child("Post").push().getKey();
                 P.setPostID(key);
                 databaseReference.child("Post").child(key).setValue(P);

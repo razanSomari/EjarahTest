@@ -55,6 +55,30 @@ public class PostActivity extends AppCompatActivity {
         commentsCount = findViewById(R.id.TextViewPostComments);
         listView = (ListView) findViewById(R.id.replay_list);
 
+        String content;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                name= "";
+                content = "";
+                postID="";
+            } else {
+                content = extras.getString("CONTENT");
+                name = extras.getString("NAME");
+                postID = extras.getString("POST_ID");
+            }
+        } else {
+            content= (String) savedInstanceState.getSerializable("CONTENT");
+            name= (String) savedInstanceState.getSerializable("NAME");
+            postID = (String) savedInstanceState.getSerializable("POST_ID");
+        }
+
+        textViewName = findViewById(R.id.textViewPostUsername);
+        textViewContent = findViewById(R.id.TextViewPostContent);
+
+        textViewName.setText(name);
+        textViewContent.setText(content);
+
 
         databaseReference.child("User").addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,7 +86,7 @@ public class PostActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
                     if(user.getEmail()!=null&&email!=null)
-                        if (user.getEmail().toLowerCase().equals(name.toLowerCase()))
+                        if (user.getEmail().toLowerCase().equals(email.toLowerCase()))
                             currentUser = user;
                 }
             }
@@ -97,29 +121,7 @@ public class PostActivity extends AppCompatActivity {
         });
 
 
-        String content;
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                name= "";
-                content = "";
-                postID="";
-            } else {
-                content = extras.getString("CONTENT");
-                name = extras.getString("NAME");
-                postID = extras.getString("POST_ID");
-            }
-        } else {
-            content= (String) savedInstanceState.getSerializable("CONTENT");
-            name= (String) savedInstanceState.getSerializable("NAME");
-            postID = (String) savedInstanceState.getSerializable("POST_ID");
-        }
 
-        textViewName = findViewById(R.id.textViewPostUsername);
-        textViewContent = findViewById(R.id.TextViewPostContent);
-
-        textViewName.setText(name);
-        textViewContent.setText(content);
     }
 
      public void openDialog(View view){
