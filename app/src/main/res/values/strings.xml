@@ -12,4 +12,22 @@
     <string name="close">Close</string>
     <string name="api_key">AIzaSyD5DTJytVu4T_4DGoj8QGC8RsbJz4ZPVt4</string>
     <string name="langBtn"> Change Language</string>
+    <string name="email_hint">E-Mail</string>
+    <string name="password_hint">Password</string>
+    <string name="login_btn">Log in</string>
+    <string name="acc_msg">Do not already have an account?</string>
+    <string name="signup">Sign Up</string>
+
+    <string name="post_hint">I neee help to ....</string>
+    <string name="tag_hint">Add Tag</string>
+
+    <string name="name_hint">Name</string>
+    <string name="con_pass_hint">Confirm Password</string>
+    <string name="have_acc_hint">Already have an account?</string>
+
+    <string name="home">Home</string>
+    <string name="level">Level</string>
+    <string name="search">Search</string>
+    <string name="communicate">Communicate</string>
+    <string name="language">Language</string>
 </resources>

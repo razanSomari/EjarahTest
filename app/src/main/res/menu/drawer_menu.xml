@@ -8,25 +8,25 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_level"
             android:icon="@drawable/ic_diamond"
-            android:title="Level" />
+            android:title="@string/level" />
 
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_search"
-            android:title="search" />
+            android:title="@string/search" />
     </group>
 
-    <item android:title="communicate">
+    <item android:title="@string/communicate">
         <menu>
             <group>
                 <item
                     android:id="@+id/nav_language"
                     android:icon="@drawable/ic_language"
-                    android:title="language" />
+                    android:title="@string/language" />
             </group>
         </menu>
     </item>

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="level page "
+        android:text="level page"
         android:textSize="30sp" />
 
 </RelativeLayout>
