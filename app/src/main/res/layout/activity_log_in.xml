@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:background="@drawable/round_border_up"
-                android:hint="E-Mail"/>
+                android:hint="@string/email_hint"/>
 
             <EditText
                 android:id="@+id/editTextPassword"
@@ -46,7 +46,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@drawable/round_corner_bottom"
-                android:hint="Password"/>
+                android:hint="@string/password_hint"/>
 
         </LinearLayout>
 
@@ -71,7 +71,7 @@
             android:background="@drawable/round_button"
 
             android:textColor="#fff"
-            android:text="Log In"/>
+            android:text="@string/login_btn"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:gravity="center"
@@ -81,13 +81,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
-                android:text="Don't already have an account?"/>
+                android:text="@string/acc_msg"/>
             <TextView
                 android:id="@+id/textViewSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
-                android:text=" Sign Up"/>
+                android:text="@string/signup"/>
         </LinearLayout>
 
     </LinearLayout>

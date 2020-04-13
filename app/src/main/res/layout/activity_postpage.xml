@@ -41,7 +41,7 @@
             android:id="@+id/edit1"
             android:layout_width="match_parent"
             android:layout_height="229dp"
-            android:hint="I neee help to ...."
+            android:hint="@string/post_hint"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -57,7 +57,7 @@
             android:layout_width="290dp"
             android:layout_height="46dp"
             android:text=""
-            android:hint="Add Tag"/>
+            android:hint="@string/tag_hint"/>
 
         <ImageButton
             android:id="@+id/addimage"
