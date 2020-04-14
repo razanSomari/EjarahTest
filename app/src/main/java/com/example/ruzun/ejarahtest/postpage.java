@@ -51,6 +51,7 @@ public class postpage extends AppCompatActivity {
         databaseReference.child("User").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
                     if(user.getEmail()!=null&&username!=null)
@@ -121,7 +122,7 @@ public class postpage extends AppCompatActivity {
                 String key = databaseReference.child("Post").push().getKey();
                 P.setPostID(key);
                 databaseReference.child("Post").child(key).setValue(P);
-                Toast.makeText(context, "post sucessfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "post successfully", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(postpage.this, MainActivity.class));
 
             }

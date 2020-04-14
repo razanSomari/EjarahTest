@@ -24,63 +24,82 @@
             android:background="#fff"
             android:paddingLeft="40dp">
 
-            <LinearLayout
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+           <LinearLayout
+               android:layoutDirection="rtl"
+               android:layout_marginTop="16dp"
+               android:layout_marginBottom="16dp"
+               android:orientation="horizontal"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:paddingLeft="8dp"
+                   android:layout_gravity="center"
+                   android:id="@+id/textview_thump_up"
+                   android:paddingRight="16dp"
+                   android:src="@drawable/ic_thumb_up_24dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+               <LinearLayout
+                   android:gravity="left"
+                   android:layout_width="fill_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
 
-                android:orientation="vertical"
+                   >
 
-                >
+                   <LinearLayout
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                       >
+                       <TextView
+                           android:layout_marginLeft="4dp"
+                           android:id="@+id/textview_points"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textColor="@color/colorPrimaryDark"                    android:textSize="18sp"
+                           android:textStyle="bold"
+                           tools:text="99"
 
-                >
-                <TextView
-                    android:id="@+id/textview_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                           />
+                       <ImageView
+                           android:layout_gravity="center_vertical"
+                           android:layout_marginLeft="16dp"
+                           android:layout_width="20sp"
+                           android:layout_height="20sp"
+                           android:src="@drawable/diamond"/>
+                       <TextView
+                           android:id="@+id/textview_username"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textColor="@color/colorPrimaryDark"
+                           android:textSize="18sp"
+                           android:textStyle="bold"
 
-                    tools:text="username"
+                           tools:text="username"
 
-                    />
-                <ImageView
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:src="@drawable/diamond"/>
-                <TextView
-                    android:layout_marginLeft="4dp"
-                    android:id="@+id/textview_points"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    tools:text="99"
-
-                    />
-                </LinearLayout>
-
-
+                           />
 
 
-                <TextView
-                    android:id="@+id/textview_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="18sp"
-                    tools:text="this is a post" />
-            </LinearLayout>
+                   </LinearLayout>
+
+
+
+
+                   <TextView
+                       android:id="@+id/textview_content"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorPrimaryDark"
+                       android:textSize="18sp"
+                       tools:text="this is a post" />
+               </LinearLayout>
+
+
+
+           </LinearLayout>
 
 
 

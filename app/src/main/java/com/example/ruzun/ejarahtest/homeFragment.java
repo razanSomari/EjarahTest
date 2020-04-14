@@ -100,6 +100,8 @@ public class homeFragment extends Fragment {
                 i.putExtra("CONTENT", post.getContent());
                 i.putExtra("NAME", post.getName());
                 i.putExtra("POST_ID", post.getPostID());
+                i.putExtra("EMAIL", post.getUsername());
+                i.putExtra("CAT", post.getCatogry());
                 startActivity(i);
             }
         });

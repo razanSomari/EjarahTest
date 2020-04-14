@@ -5,6 +5,7 @@ public class User {
     private String name;
     private String UserID;
     private int points;
+    private Level level;
 
     public User(){
 
@@ -53,5 +54,12 @@ public class User {
         UserID = userID;
     }
 
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
 }
 
