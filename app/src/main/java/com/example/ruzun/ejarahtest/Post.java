@@ -44,6 +44,14 @@ public class Post {
         this.location = location;
         this.catogry = catogry;
     }
+    public Post( String username, String content, String tag,String name, String catogry ) {
+
+        this.username=username;
+        this.content=content;
+        this.tag=tag;
+        this.name=name;
+        this.catogry = catogry;
+    }
 
     public int getPoints() {
         return points;
