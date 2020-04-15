@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -116,12 +118,21 @@ public class postpage extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Post P = new Post(username,text1,text2,currentUser.getName(),currentUserLocation.getL(),catogry);
+                Post P = new Post(username,text1,text2,currentUser.getName(),catogry);
 
                 String key = databaseReference.child("Post").push().getKey();
                 P.setPostID(key);
                 databaseReference.child("Post").child(key).setValue(P);
-                Toast.makeText(context, "post sucessfully", Toast.LENGTH_SHORT).show();
+
+                Double lat=currentUserLocation.getL().get(0);
+                Double lng=currentUserLocation.getL().get(1);
+
+                databaseReference = FirebaseDatabase.getInstance().getReference("PostLocation");
+                GeoFire geoFire = new GeoFire(databaseReference);
+                geoFire.setLocation(P.getPostID(), new GeoLocation(lat, lng));
+
+
+                Toast.makeText(context, "posted successfully", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(postpage.this, MainActivity.class));
 
             }
