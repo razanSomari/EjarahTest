@@ -81,11 +81,13 @@ public class PostAdapter <T> extends ArrayAdapter<Post> {
                 for (Level level : levels)
                 {
 
-                    if(level.getCategory().equals(PostActivity.postCategory))
-                    {
-                        isExist = true;
-                        index = i;
+                    if(level.getCategory()!=null &&PostActivity.postCategory!=null){
+                        if(level.getCategory().equals(PostActivity.postCategory))
+                        {
+                            isExist = true;
+                            index = i;
 
+                        }
                     }
                     i++;
                     add();

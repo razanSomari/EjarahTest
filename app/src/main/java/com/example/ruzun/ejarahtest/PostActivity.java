@@ -86,12 +86,17 @@ public class PostActivity extends AppCompatActivity {
             postID = (String) savedInstanceState.getSerializable("POST_ID");
             postEmail = (String) savedInstanceState.getSerializable("EMAIL");
             postCategory = (String) savedInstanceState.getSerializable("CAT");
+
         }
 
-        if (postEmail.equals(email))
-            isPoster = true;
-        else
-            isPoster = false;
+        if(postEmail!=null){
+            if (postEmail.equals(email))
+                isPoster=true;
+            else
+                isPoster=false;
+        }
+
+
 
         textViewName = findViewById(R.id.textViewPostUsername);
         textViewContent = findViewById(R.id.TextViewPostContent);
@@ -100,45 +105,45 @@ public class PostActivity extends AppCompatActivity {
         textViewContent.setText(content);
 
 
-        databaseReference.child("User").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    User user = snapshot.getValue(User.class);
-                    if(user.getEmail()!=null&&email!=null)
-                        if (user.getEmail().toLowerCase().equals(email.toLowerCase()))
-                        {
-                            currentUser = user;
+        if (postCategory!=null){
+            databaseReference.child("User").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        User user = snapshot.getValue(User.class);
+                        if(user.getEmail()!=null&&email!=null)
+                            if (user.getEmail().toLowerCase().equals(email.toLowerCase()))
+                            {
+                                currentUser = user;
+                            }
+                    }
+                    databaseReference.child("User").child(currentUser.getUserID()).child("level").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                Level level = snapshot.getValue(Level.class);
+                                levels.add(level);
+                            }
+                            checkIfCategoryExist();
 
                         }
+
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
-                databaseReference.child("User").child(currentUser.getUserID()).child("level").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            Level level = snapshot.getValue(Level.class);
-                            levels.add(level);
-                            Log.i("levels list","EEEE");
-                        }
-                        checkIfCategoryExist();
-
-                    }
 
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
-            }
+                }
+            });
 
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+        }
 
         databaseReference.child("Replay").addValueEventListener(new ValueEventListener() {
             @Override
@@ -165,7 +170,7 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
-     public void openDialog(View view){
+    public void openDialog(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 
@@ -226,21 +231,19 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
-    public static void addPointsToUser(String replyUserID){
-
-    }
 
     static int index =-1;
     public void checkIfCategoryExist() {
         int i=0;
         for (Level level : levels)
         {
+            if(level.getCategory()!=null && postCategory!=null){
+                if(level.getCategory().equals(postCategory))
+                {
+                    isExist = true;
+                    index = i;
 
-            if(level.getCategory().equals(postCategory))
-            {
-                isExist = true;
-                index = i;
-
+                }
             }
             i++;
         }

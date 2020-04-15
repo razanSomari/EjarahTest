@@ -4,6 +4,7 @@ public class User {
     private String email;
     private String name;
     private String UserID;
+    private Level level;
     private int points;
     private Level level;
 
@@ -61,5 +62,6 @@ public class User {
     public Level getLevel() {
         return level;
     }
+
 }
 

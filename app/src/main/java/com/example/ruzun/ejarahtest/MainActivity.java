@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DatabaseReference nearbyDatabaseReference= FirebaseDatabase.getInstance().getReference().child("userLocation");
         GeoFire geoFire=new GeoFire(nearbyDatabaseReference);
+        Log.i("TAGG", "INSIDE");
 
         GeoQuery geoQuery=geoFire.queryAtLocation(new GeoLocation(lat, lng),radius); //users in a 30 kilometers radius
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
@@ -181,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(!key.equals(userId)){
 
                     //get all nearby users except me
-                    Log.e("nearby user","User "+ key+"is at "+location);
                     //array list of posts attached to key
                 }
 

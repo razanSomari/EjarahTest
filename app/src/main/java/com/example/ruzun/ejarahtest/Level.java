@@ -5,6 +5,7 @@ public class Level {
     private int points;
     private String category;
     private String ID;
+
     Level(){
 
     }
