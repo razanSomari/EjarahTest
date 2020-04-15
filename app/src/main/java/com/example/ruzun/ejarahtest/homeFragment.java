@@ -1,10 +1,14 @@
 package com.example.ruzun.ejarahtest;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +17,29 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class homeFragment extends Fragment {
 
@@ -37,19 +54,30 @@ public class homeFragment extends Fragment {
     String currentUserEmail;
 
     User currentUser;
+
+    Double lat, lng;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationRequest locationRequest;
+    private String userId;
+
+    private ArrayList<String> postsID=new ArrayList<String>();
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       View view  = inflater.inflate(R.layout.fragment_home,container,false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         createPost = view.findViewById(R.id.createPost);
 
+        callPermissions();
 
 
-        createPost.setOnClickListener(new View.OnClickListener(){
+        createPost.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -57,37 +85,11 @@ public class homeFragment extends Fragment {
             }
         });
 
-        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                posts.removeAll(posts);
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Post post = snapshot.getValue(Post.class);
-                    posts.add(post);
-                    dispaly();
-                }
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-
 
         //to get the email of the current user (treating email as it is the user ID)
 
 
-
-
-
-
         listView = (ListView) view.findViewById(R.id.post_list);
-
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -96,28 +98,165 @@ public class homeFragment extends Fragment {
 
                 Post post = posts.get(position);
 
-                Intent i = new Intent(getActivity(),PostActivity.class);
+                Intent i = new Intent(getActivity(), PostActivity.class);
                 i.putExtra("CONTENT", post.getContent());
                 i.putExtra("NAME", post.getName());
                 i.putExtra("POST_ID", post.getPostID());
-                i.putExtra("EMAIL", post.getUsername());
-                i.putExtra("CAT", post.getCatogry());
                 startActivity(i);
             }
         });
 
-        return view ;
+        return view;
     }
 
 
-    void dispaly(){
+
+
+    public void callPermissions() {
+        //request location permission
+        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION};
+        Permissions.check(getActivity(), permissions, "Location is required to use Ejarah", new Permissions.Options().setSettingsDialogMessage("Warning").setRationaleDialogTitle("Info"), new PermissionHandler() {
+            @Override
+            public void onGranted() {
+                requestLocationUpdates();
+            }
+
+            @Override
+            public void onDenied(Context context, ArrayList<String> deniedPermissions) {
+                super.onDenied(context, deniedPermissions);
+                callPermissions();
+            }
+        });
+    }
+
+    public void requestLocationUpdates() {
+        //update location periodically
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(9000); //request location every 5 min 300000
+        locationRequest.setFastestInterval(9000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //drains battery
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                lat = locationResult.getLastLocation().getLatitude();
+                lng = locationResult.getLastLocation().getLongitude();
+                setUserLocation(lat, lng);
+            }
+        }, getActivity().getMainLooper());
+
+
+    }
+
+    public void setUserLocation(Double lat, Double lng) {
+        //inserting into database!
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("userLocation");
+        GeoFire geoFire = new GeoFire(databaseReference);
+        geoFire.setLocation(userId, new GeoLocation(lat, lng));
+        getNearbyUsers(lat, lng);
+
+    }
+
+    public void getNearbyUsers(Double lat, Double lng) {
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        int radius = 5;
+        //array list with all nearby users, then get their posts
+        String key = databaseReference.child("Post").push().getKey();
+        DatabaseReference nearbyDatabaseReference = FirebaseDatabase.getInstance().getReference().child("PostLocation"); //.child(userIDWhoIsClose)
+        GeoFire geoFire = new GeoFire(nearbyDatabaseReference);
+
+        //should it be the opposite? comparing user location to post location?
+
+        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(lat, lng), radius); //users in a 30 kilometers radius
+        //have to have the user location to compare to post location, which comes from lat, long
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+                //Key Entered: The location of a key now matches the query criteria.
+                //key is userID nearby, location is users location
+                //
+               /* if (!key.equals(userId)) {
+                }*/
+                //get all nearby users except me
+                // Log.e("nearby user", "my userid "+userId+" User " + key + " is at " + location);
+                //Log.e("nearby user", " post id " + key + " is at " + location);
+                //array list of posts attached to key
+                //method to get their posts!!!!!!!!!!!!!!!!!!!!!
+                if(!postsID.contains(key)){
+                    postsID.add(key);
+                }
+                getNearbyPosts(postsID);
+
+               /* for(String i : postsID) {
+                    Log.e("postID Arraylist ", i + " size of arraylist " + postsID.size());
+                }*/
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+                //Key Exited: The location of a key no longer matches the query criteria.
+                //the user (me) has existed the radius
+                //remove posts from array list
+
+                if(postsID.contains(key)){
+                    postsID.remove(key);
+                    //Log.e("Removed key ", key + " size of arraylist " + postsID.size());
+                }
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                //Key Moved: The location of a key changed but the location still matches the query criteria.
+                //user is moving but is still within radius
+                //don't think we'll need this
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+                //Query Ready: All current data has been loaded from the server and all initial events have been fired.
+                //don't think we'll need this
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+                //Query Error: There was an error while performing this query, e.g. a violation of security rules.
+                //don't think we'll need this
+            }
+        });
+    }
+
+
+    public void getNearbyPosts(final ArrayList<String> postsID){
+
+        databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                posts.removeAll(posts);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    //postsID.get(0).equals(snapshot.getKey());
+                    if(postsID.contains(snapshot.getKey())){
+                        Post post = snapshot.getValue(Post.class);
+                        posts.add(post);
+                        dispaly();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    void dispaly() {
         Collections.reverse(posts);
-        PostAdapter<Post> adapter = new PostAdapter<Post>(getContext(),posts);
+        PostAdapter<Post> adapter = new PostAdapter<Post>(getContext(), posts);
 
         listView.setAdapter(adapter);
 
     }
-
-
 }
-
