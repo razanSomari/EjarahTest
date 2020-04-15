@@ -8,11 +8,29 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.tensorflow.lite.Interpreter;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class postpage extends AppCompatActivity {
 
@@ -118,6 +137,9 @@ public class postpage extends AppCompatActivity {
                 }
                 Post P = new Post(username,text1,text2,currentUser.getName(),currentUserLocation.getL(),catogry);
 
+                String postContent = removeStopWords(text1);
+
+                Log.i("STOP WORDS", postContent);
                 String key = databaseReference.child("Post").push().getKey();
                 P.setPostID(key);
                 databaseReference.child("Post").child(key).setValue(P);
@@ -179,5 +201,61 @@ public class postpage extends AppCompatActivity {
                 .create();
 
         return myQuittingDialogBox;
+    }
+
+
+    JSONArray obj = null;
+
+    public String removeStopWords(String inputString){
+        String file = loadJSONFromAsset(postpage.this,"stopwords.json");
+        String result ="";
+
+        try {
+            obj = new JSONArray(file);
+
+            String tokens [] = inputString.split(" ");
+
+                for (String token : tokens)
+                {
+                    for (int i=0; i<obj.length(); i++)
+                    {
+                        if (token.equals(obj.get(i)))
+                        {
+                            inputString = inputString.replaceAll(token, "");
+                        }
+                    }
+                }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return inputString;
+    }
+
+    public String loadJSONFromAsset(Context context, String filename) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open(filename);
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
     }
 }
