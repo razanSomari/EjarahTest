@@ -16,6 +16,7 @@ public class Post {
     private String userid;
     private String catogry;
     private Image pic;
+    private String features;
     private ArrayList<Double> location;
 
 
@@ -131,6 +132,14 @@ public class Post {
 
     public String getCatogry() {
         return catogry;
+    }
+
+    public void setFeatures(String features) {
+        this.features = features;
+    }
+
+    public String getFeatures() {
+        return features;
     }
 }
 

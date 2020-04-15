@@ -128,20 +128,21 @@ public class postpage extends AppCompatActivity {
                 text1=contant.getText().toString();
                 text2=tag.getText().toString();
                 String catogry = "";
+                String preprcessedString="";
 
                 ModelAdapter modelAdapter = new ModelAdapter(postpage.this);
                 try {
-                    catogry = modelAdapter.Tokenizing(modelAdapter.preprocessing(text1));
+                    preprcessedString = modelAdapter.preprocessing(text1);
+                    catogry = modelAdapter.Tokenizing(preprcessedString);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                String features = removeStopWords(preprcessedString);
+
                 Post P = new Post(username,text1,text2,currentUser.getName(),currentUserLocation.getL(),catogry);
-
-                String postContent = removeStopWords(text1);
-
-                Log.i("STOP WORDS", postContent);
                 String key = databaseReference.child("Post").push().getKey();
                 P.setPostID(key);
+                P.setFeatures(features);
                 databaseReference.child("Post").child(key).setValue(P);
                 Toast.makeText(context, "post sucessfully", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(postpage.this, MainActivity.class));
@@ -219,10 +220,7 @@ public class postpage extends AppCompatActivity {
                 {
                     for (int i=0; i<obj.length(); i++)
                     {
-                        if (token.equals(obj.get(i)))
-                        {
-                            inputString = inputString.replaceAll(token, "");
-                        }
+                            inputString = inputString.replaceAll((" "+obj.get(i)+" "), " ");
                     }
                 }
 
