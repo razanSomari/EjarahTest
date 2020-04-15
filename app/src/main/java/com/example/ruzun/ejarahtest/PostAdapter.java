@@ -82,20 +82,29 @@ public class PostAdapter <T> extends ArrayAdapter<Post> {
                 {
 
                     if(level.getCategory()!=null &&PostActivity.postCategory!=null){
+                        Log.i("STATE", "TRUE + List size"+levels.size());
+                        Log.i("CAR ", level.getCategory() + "POSR CAT "+PostActivity.postCategory);
+                        Log.i("BOOLEAN ", level.getCategory().equals(PostActivity.postCategory)+"");
                         if(level.getCategory().equals(PostActivity.postCategory))
                         {
                             isExist = true;
                             index = i;
-
+                            break;
                         }
                     }
+                    else{
+                        Log.i("STATE", "FLASE + List size"+levels.size());
+                    }
                     i++;
-                    add();
                 }
+                add();
             }
 
+            //------------------------------------------------------------------------------------------------
             public void add()
             {
+
+                Log.i("IS EXIST ", isExist+"");
 
                 if (PostActivity.isPoster&&poster!=null&&isFirst)
                 {
@@ -114,6 +123,8 @@ public class PostAdapter <T> extends ArrayAdapter<Post> {
                         isFirst=false;
                     }
                     else{
+                        Log.i("LEVEL", "It already exists");
+                        Log.i("LEVEL", "index is equal to "+index+" which is "+levels.get(index).getCategory()+" with id"+levels.get(index).getID());
                         String levelID = levels.get(index).getID();
                         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("User").child(poster.getUserID()).child("level").child(levelID);
                         mDatabase.child("points").setValue((levels.get(index).getPoints())+5);
@@ -151,6 +162,7 @@ public class PostAdapter <T> extends ArrayAdapter<Post> {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                             {
+                                levels.removeAll(levels);
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                                 {
                                     Level level = snapshot.getValue(Level.class);
