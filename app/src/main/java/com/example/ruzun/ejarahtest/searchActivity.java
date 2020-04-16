@@ -47,6 +47,8 @@ public class searchActivity extends AppCompatActivity {
     String featuresString="";
     HashMap<String, Integer> frequencyHash=new HashMap<String, Integer>();
     ArrayList<String> features=new ArrayList<String>();
+    
+    String isItWorkingRazan="?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
