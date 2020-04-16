@@ -97,7 +97,7 @@ public class searchActivity extends AppCompatActivity {
                             postLocation.setLatitude(post.getLocation().get(0));
                             postLocation.setLongitude(post.getLocation().get(1));
 
-                            if(placeLocation.distanceTo(postLocation)<=10000){
+                            if(placeLocation.distanceTo(postLocation)<=5000){
 
                                 featuresString=post.getFeatures()+" "+featuresString;
                             }
