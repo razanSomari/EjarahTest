@@ -56,6 +56,7 @@ public class homeFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private String userId;
+    String email;
 
     TextView userNameMenu, userEmailMenu;
     String currentUserEmail;
@@ -71,7 +72,7 @@ public class homeFragment extends Fragment {
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         createPost = view.findViewById(R.id.createPost);
-
+        email = mFirebaseAuth.getCurrentUser().getEmail();
 
 
         createPost.setOnClickListener(new View.OnClickListener(){
@@ -97,6 +98,25 @@ public class homeFragment extends Fragment {
 
 
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReference.child("User").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
+                    if(user.getEmail()!=null&&email!=null)
+                        if (user.getEmail().toLowerCase().equals(email.toLowerCase()))
+                        {
+                            currentUser = user;
+                        }
+                }
+
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

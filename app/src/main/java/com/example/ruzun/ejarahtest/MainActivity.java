@@ -2,6 +2,7 @@ package com.example.ruzun.ejarahtest;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.google.android.material.navigation.NavigationView;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -25,6 +27,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView userNameMenu, userEmailMenu;
     String currentUserEmail;
 
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
     User currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        setUpFirebaseListener();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
@@ -247,6 +254,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new languageFragment()).commit();
                 break;
+            case R.id.nav_signout:
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(MainActivity.this, "تم تسجيل الخروج بنجاح", Toast.LENGTH_SHORT).show();
+                break;
+
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -259,6 +271,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userNameMenu.setText(currentUser.getName());
         }
 
+    }
+
+    //----------------------------------------------------------------------
+    public void onStart(){
+        super.onStart();
+
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListener);
+    }
+
+    //----------------------------------------------------------------------
+    @Override
+    public void onStop(){
+        super.onStop();
+        if(mAuthStateListener!=null)
+            FirebaseAuth.getInstance().removeAuthStateListener(mAuthStateListener);
+    }
+
+    //----------------------------------------------------------------------
+    private void setUpFirebaseListener(){
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user ==null ){
+                    Intent intent = new Intent(MainActivity.this, LogIn.class);
+                    startActivity(intent);
+                }
+
+
+            }
+        };
     }
 }
 

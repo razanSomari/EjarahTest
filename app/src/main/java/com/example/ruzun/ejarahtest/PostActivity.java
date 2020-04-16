@@ -152,7 +152,10 @@ public class PostActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Post replay = snapshot.getValue(Post.class);
                     if(replay.getPostID().equals(postID))
+                    {
+                        replay.setPoints(currentUser.getPoints());
                         replays.add(replay);
+                    }
 
 
                 }
@@ -200,11 +203,14 @@ public class PostActivity extends AppCompatActivity {
                             String k = mDatabase.child("level").push().getKey();
                             level.setID(k);
                             databaseReference.child("User").child(currentUser.getUserID()).child("level").child(k).setValue(level);
+                            databaseReference.child("User").child(currentUser.getUserID()).child("posts").setValue(currentUser.getPoints()+1);
                         }
                         else{
                             String levelID = levels.get(index).getID();
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("User").child(currentUser.getUserID()).child("level").child(levelID);
                             mDatabase.child("points").setValue((levels.get(index).getPoints())+1);
+                            databaseReference.child("User").child(currentUser.getUserID()).child("posts").setValue(currentUser.getPoints()+1);
+
 
                         }
                     }
