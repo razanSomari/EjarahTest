@@ -40,9 +40,14 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
 
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationRequest locationRequest;
+    private String userId;
     FirebaseAuth mFirebaseAuth;
 
     FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    Double lat, lng;
 
     TextView userNameMenu, userEmailMenu;
     String currentUserEmail;
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        callPermissions();
 
         databaseReference.child("User").addValueEventListener(new ValueEventListener() {
             @Override
@@ -107,6 +113,106 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+    }
+    public void callPermissions(){
+        //request location permission
+        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION};
+        Permissions.check(this, permissions, "Location is required to use Ejarah", new Permissions.Options().setSettingsDialogMessage("Warning").setRationaleDialogTitle("Info"), new PermissionHandler() {
+            @Override
+            public void onGranted() {
+                requestLocationUpdates();
+            }
+
+            @Override
+            public void onDenied(Context context, ArrayList<String> deniedPermissions) {
+                super.onDenied(context, deniedPermissions);
+                callPermissions();
+            }
+        });
+    }
+
+    public void requestLocationUpdates(){
+        //update location periodically
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(2000); //request location every 5 min 300000
+        locationRequest.setFastestInterval(2000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //drains battery
+
+        fusedLocationClient.requestLocationUpdates(locationRequest,new LocationCallback(){
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                lat=locationResult.getLastLocation().getLatitude();
+                lng=locationResult.getLastLocation().getLongitude();
+                setUserLocation(lat,lng);
+            }
+        }, getMainLooper());
+
+
+    }
+
+    public void setUserLocation(Double lat, Double lng){
+        //inserting into database!
+        userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference= FirebaseDatabase.getInstance().getReference("userLocation");
+        GeoFire geoFire=new GeoFire(databaseReference);
+        geoFire.setLocation(userId, new GeoLocation(lat, lng));
+        getNearbyUsers(lat,lng);
+
+    }
+
+    public void getNearbyUsers(Double lat, Double lng){
+        userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+        int radius=30;
+
+        DatabaseReference nearbyDatabaseReference= FirebaseDatabase.getInstance().getReference().child("userLocation");
+        GeoFire geoFire=new GeoFire(nearbyDatabaseReference);
+        Log.i("TAGG", "INSIDE");
+
+        GeoQuery geoQuery=geoFire.queryAtLocation(new GeoLocation(lat, lng),radius); //users in a 30 kilometers radius
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+                //Key Entered: The location of a key now matches the query criteria.
+                //key is userID nearby, location is users location
+                //
+                if(!key.equals(userId)){
+
+                    //get all nearby users except me
+                    //array list of posts attached to key
+                }
+
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+                //Key Exited: The location of a key no longer matches the query criteria.
+                //the user has existed the radius
+                //remove posts from array list
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                //Key Moved: The location of a key changed but the location still matches the query criteria.
+                //user is moving but is still within radius
+                //don't think we'll need this
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+                //Query Ready: All current data has been loaded from the server and all initial events have been fired.
+                //don't think we'll need this
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+                //Query Error: There was an error while performing this query, e.g. a violation of security rules.
+                //don't think we'll need this
+            }
+        });
     }
     @Override
     public void onBackPressed() {

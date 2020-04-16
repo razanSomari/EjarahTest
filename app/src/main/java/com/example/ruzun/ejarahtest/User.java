@@ -6,6 +6,7 @@ public class User {
     private String UserID;
     private Level level;
     private int points;
+    private Level level;
 
     public User(){
 
