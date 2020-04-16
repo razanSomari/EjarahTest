@@ -30,4 +30,7 @@
     <string name="search">Search</string>
     <string name="communicate">Communicate</string>
     <string name="language">Language</string>
+
+    <string name="search_no_result">Unfortunately, there are no results in this location</string>
+
 </resources>
