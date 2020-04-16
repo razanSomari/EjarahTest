@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -45,6 +47,7 @@ public class PostActivity extends AppCompatActivity {
     final ArrayList<Post> replays = new ArrayList<Post>();
     static ArrayList<Level> levels = new ArrayList<Level>();
 
+    Map<String, Integer> UserTotalPoints = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +114,8 @@ public class PostActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                         User user = snapshot.getValue(User.class);
+                        UserTotalPoints.put(user.getEmail(), user.getPoints());
+
                         if(user.getEmail()!=null&&email!=null)
                             if (user.getEmail().toLowerCase().equals(email.toLowerCase()))
                             {
@@ -153,7 +158,7 @@ public class PostActivity extends AppCompatActivity {
                     Post replay = snapshot.getValue(Post.class);
                     if(replay.getPostID().equals(postID))
                     {
-                        replay.setPoints(currentUser.getPoints());
+                        replay.setPoints(UserTotalPoints.get(replay.getUsername()));
                         replays.add(replay);
                     }
 
@@ -203,13 +208,13 @@ public class PostActivity extends AppCompatActivity {
                             String k = mDatabase.child("level").push().getKey();
                             level.setID(k);
                             databaseReference.child("User").child(currentUser.getUserID()).child("level").child(k).setValue(level);
-                            databaseReference.child("User").child(currentUser.getUserID()).child("posts").setValue(currentUser.getPoints()+1);
+                            databaseReference.child("User").child(currentUser.getUserID()).child("points").setValue(currentUser.getPoints()+1);
                         }
                         else{
                             String levelID = levels.get(index).getID();
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("User").child(currentUser.getUserID()).child("level").child(levelID);
                             mDatabase.child("points").setValue((levels.get(index).getPoints())+1);
-                            databaseReference.child("User").child(currentUser.getUserID()).child("posts").setValue(currentUser.getPoints()+1);
+                            databaseReference.child("User").child(currentUser.getUserID()).child("points").setValue(currentUser.getPoints()+1);
 
 
                         }

@@ -120,7 +120,7 @@ public class PostAdapter <T> extends ArrayAdapter<Post> {
                         String k = mDatabase.child("level").push().getKey();
                         level.setID(k);
                         databaseReference.child("User").child(poster.getUserID()).child("level").child(k).setValue(level);
-                        databaseReference.child("User").child(poster.getUserID()).child("posts").setValue(poster.getPoints()+5);
+                        databaseReference.child("User").child(poster.getUserID()).child("points").setValue(poster.getPoints()+5);
 
                         isFirst=false;
                     }
@@ -130,7 +130,7 @@ public class PostAdapter <T> extends ArrayAdapter<Post> {
                         String levelID = levels.get(index).getID();
                         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("User").child(poster.getUserID()).child("level").child(levelID);
                         mDatabase.child("points").setValue((levels.get(index).getPoints())+5);
-                        databaseReference.child("User").child(poster.getUserID()).child("posts").setValue(poster.getPoints()+5);
+                        databaseReference.child("User").child(poster.getUserID()).child("points").setValue(poster.getPoints()+5);
                         isFirst=false;
 
                     }

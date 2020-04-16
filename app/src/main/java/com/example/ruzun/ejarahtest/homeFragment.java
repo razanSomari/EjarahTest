@@ -40,6 +40,8 @@ import com.nabinbhandari.android.permissions.Permissions;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -62,6 +64,8 @@ public class homeFragment extends Fragment {
     String currentUserEmail;
     UserLocation userCurrentLocation;
 
+    Map<String, Integer> UserTotalPoints = new HashMap<>();
+
     User currentUser;
     @Nullable
     @Override
@@ -69,6 +73,7 @@ public class homeFragment extends Fragment {
                              Bundle savedInstanceState) {
        View view  = inflater.inflate(R.layout.fragment_home,container,false);
 
+       PostActivity.isPoster=false;
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         createPost = view.findViewById(R.id.createPost);
@@ -109,6 +114,8 @@ public class homeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
+                    UserTotalPoints.put(user.getEmail(), user.getPoints());
+
                     if(user.getEmail()!=null&&email!=null)
                         if (user.getEmail().toLowerCase().equals(email.toLowerCase()))
                         {
@@ -122,6 +129,7 @@ public class homeFragment extends Fragment {
 
             }
         });
+
 
         databaseReference.child("Post").addValueEventListener(new ValueEventListener() {
             @Override
@@ -143,6 +151,9 @@ public class homeFragment extends Fragment {
 
                     if (userLocation.distanceTo(postLocation)<=1000)
                     {
+                        if(UserTotalPoints.get(post.getUsername())!=null){
+                            post.setPoints(UserTotalPoints.get(post.getUsername()));
+                        }
                         posts.add(post);
                         dispaly();
                     }
