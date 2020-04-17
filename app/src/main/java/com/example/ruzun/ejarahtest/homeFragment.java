@@ -181,6 +181,7 @@ public class homeFragment extends Fragment {
 
 
 
+
         listView = (ListView) view.findViewById(R.id.post_list);
 
 

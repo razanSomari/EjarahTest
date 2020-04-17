@@ -56,16 +56,30 @@ public class PostAdapter <T> extends ArrayAdapter<Post> {
         points.setText(currentPost.getPoints()+"");
 
         ImageView thumpUp = (ImageView) listItemView.findViewById(R.id.textview_thump_up);
+        ImageView checkMark = (ImageView) listItemView.findViewById(R.id.image_check_mark);
 
         if(getContext().getClass()==PostActivity.class)
         {
             if (!PostActivity.isPoster)
+            {
                 thumpUp.setVisibility(View.GONE);
+                checkMark.setVisibility(View.GONE);
+            }
             else
+            {
                 thumpUp.setImageResource(R.drawable.ic_thumb_up_24dp);
+                if(currentPost.getUsername().equals(PostActivity.mostSuitableUser))
+                    checkMark.setImageResource(R.drawable.ic_check_circle_black_24dp);
+                else
+                    checkMark.setVisibility(View.GONE);
+
+            }
         }
         else
+        {
             thumpUp.setVisibility(View.GONE);
+            checkMark.setVisibility(View.GONE);
+        }
 
         thumpUp.setOnClickListener(new View.OnClickListener(){
             //------------------------Inner class ----------------------------------//

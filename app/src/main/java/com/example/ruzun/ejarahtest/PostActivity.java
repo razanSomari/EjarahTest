@@ -40,6 +40,10 @@ public class PostActivity extends AppCompatActivity {
     PostAdapter<Post> adapter;
     User currentUser;
     ListView listView;
+
+    public static String mostSuitableUser;
+    public static int maxPoints=Integer.MIN_VALUE;
+
     static String name, postID, postEmail, postCategory;
 
     public static boolean isPoster = false;
@@ -48,8 +52,11 @@ public class PostActivity extends AppCompatActivity {
     final ArrayList<Post> replays = new ArrayList<Post>();
     static ArrayList<Level> levels = new ArrayList<Level>();
 
+     ArrayList<User> users = new ArrayList<User>();
+
     Post currentPost;
     Map<String, Integer> UserTotalPoints = new HashMap<>();
+    Map<String, Integer> userCategoryPoints = new HashMap<>();
 
     boolean isFirstTimeToSetViewCount = true;
     @Override
@@ -143,7 +150,8 @@ public class PostActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                         User user = snapshot.getValue(User.class);
-                        UserTotalPoints.put(user.getEmail(), user.getPoints());
+                        users.add(user);
+                        UserTotalPoints.put(user.getEmail().toLowerCase(), user.getPoints());
 
                         if(user.getEmail()!=null&&email!=null)
                             if (user.getEmail().toLowerCase().equals(email.toLowerCase()))
@@ -151,15 +159,59 @@ public class PostActivity extends AppCompatActivity {
                                 currentUser = user;
                             }
                     }
-                    databaseReference.child("User").child(currentUser.getUserID()).child("level").addValueEventListener(new ValueEventListener() {
+                    for (final User user : users)
+                    {
+                        databaseReference.child("User").child(user.getUserID()).child("level").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                    Level level = snapshot.getValue(Level.class);
+                                    if (user.getEmail().equals(currentUser.getEmail())){
+                                        levels.add(level);
+                                    }
+                                    else
+                                        {
+                                        if (level.getCategory().equals(postCategory))
+                                            userCategoryPoints.put(user.getEmail().toLowerCase(),level.getPoints());
+                                    }
+                                }
+                                checkIfCategoryExist();
+
+                            }
+
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+
+                    databaseReference.child("Replay").addValueEventListener(new ValueEventListener() {
+
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            replays.removeAll(replays);
+                            maxPoints=Integer.MIN_VALUE;
+                            mostSuitableUser="";
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                Level level = snapshot.getValue(Level.class);
-                                levels.add(level);
-                            }
-                            checkIfCategoryExist();
+                                Post replay = snapshot.getValue(Post.class);
+                                if(replay.getPostID().equals(postID))
+                                {
+                                    if(userCategoryPoints.get(replay.getUsername().toLowerCase())>maxPoints)
+                                    {
+                                        maxPoints = userCategoryPoints.get(replay.getUsername().toLowerCase());
+                                        mostSuitableUser = replay.getUsername();
+                                    }
+                                    replay.setPoints(UserTotalPoints.get(replay.getUsername().toLowerCase()));
+                                    replays.add(replay);
 
+                                }
+
+
+                            }
+                            dispaly();
                         }
 
 
@@ -179,29 +231,7 @@ public class PostActivity extends AppCompatActivity {
 
         }
 
-        databaseReference.child("Replay").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                replays.removeAll(replays);
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Post replay = snapshot.getValue(Post.class);
-                    if(replay.getPostID().equals(postID))
-                    {
-                        replay.setPoints(UserTotalPoints.get(replay.getUsername()));
-                        replays.add(replay);
-                    }
 
-
-                }
-                dispaly();
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
 
@@ -282,6 +312,7 @@ public class PostActivity extends AppCompatActivity {
                 {
                     isExist = true;
                     index = i;
+                    break;
 
                 }
             }
@@ -301,8 +332,8 @@ public class PostActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        isPoster=false;
         super.onBackPressed();
 
-        isPoster=false;
     }
 }
