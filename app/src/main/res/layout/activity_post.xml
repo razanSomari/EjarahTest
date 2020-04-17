@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/TextViewPostViews"
-            android:text="1002"
+            android:text="0000"
             android:paddingRight="8dp"
             android:paddingLeft="8dp"
             android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
         <TextView
             android:paddingRight="16dp"
             android:id="@+id/TextViewPostComments"
-            android:text="23"
+            android:text="00"
             android:paddingLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

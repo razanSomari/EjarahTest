@@ -171,8 +171,10 @@ public class PostActivity extends AppCompatActivity {
                                     }
                                     else
                                         {
-                                        if (level.getCategory().equals(postCategory))
-                                            userCategoryPoints.put(user.getEmail().toLowerCase(),level.getPoints());
+                                        if(level.getCategory()!=null&&postCategory!=null){
+                                            if (level.getCategory().equals(postCategory))
+                                                userCategoryPoints.put(user.getEmail().toLowerCase(),level.getPoints());
+                                        }
                                     }
                                 }
                                 checkIfCategoryExist();
@@ -199,10 +201,13 @@ public class PostActivity extends AppCompatActivity {
                                 Post replay = snapshot.getValue(Post.class);
                                 if(replay.getPostID().equals(postID))
                                 {
-                                    if(userCategoryPoints.get(replay.getUsername().toLowerCase())>maxPoints)
+                                    if (userCategoryPoints.get(replay.getUsername().toLowerCase())!=null)
                                     {
-                                        maxPoints = userCategoryPoints.get(replay.getUsername().toLowerCase());
-                                        mostSuitableUser = replay.getUsername();
+                                        if(userCategoryPoints.get(replay.getUsername().toLowerCase())>maxPoints)
+                                        {
+                                            maxPoints = userCategoryPoints.get(replay.getUsername().toLowerCase());
+                                            mostSuitableUser = replay.getUsername();
+                                        }
                                     }
                                     replay.setPoints(UserTotalPoints.get(replay.getUsername().toLowerCase()));
                                     replays.add(replay);
