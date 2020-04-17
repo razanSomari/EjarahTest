@@ -168,11 +168,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setUserLocation(Double lat, Double lng){
         //inserting into database!
-        userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference= FirebaseDatabase.getInstance().getReference("userLocation");
-        GeoFire geoFire=new GeoFire(databaseReference);
-        geoFire.setLocation(userId, new GeoLocation(lat, lng));
-        getNearbyUsers(lat,lng);
+       try
+        {
+            userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+            databaseReference= FirebaseDatabase.getInstance().getReference("userLocation");
+            GeoFire geoFire=new GeoFire(databaseReference);
+            geoFire.setLocation(userId, new GeoLocation(lat, lng));
+            getNearbyUsers(lat,lng);
+        }
+       catch (Exception e)
+       {
+           e.printStackTrace();
+       }
+
 
     }
 
@@ -261,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_signout:
                 FirebaseAuth.getInstance().signOut();
-                Toast.makeText(MainActivity.this, "تم تسجيل الخروج بنجاح", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "sign out successfully", Toast.LENGTH_SHORT).show();
                 break;
 
         }

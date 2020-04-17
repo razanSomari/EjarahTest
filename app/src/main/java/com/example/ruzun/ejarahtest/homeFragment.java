@@ -248,11 +248,16 @@ public class homeFragment extends Fragment {
     }
     public void setUserLocation(Double lat, Double lng){
         //inserting into database!
-        userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference= FirebaseDatabase.getInstance().getReference("userLocation");
-        GeoFire geoFire=new GeoFire(databaseReference);
-        geoFire.setLocation(userId, new GeoLocation(lat, lng));
-        getNearbyUsers(lat,lng);
+       try{
+           userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+           databaseReference= FirebaseDatabase.getInstance().getReference("userLocation");
+           GeoFire geoFire=new GeoFire(databaseReference);
+           geoFire.setLocation(userId, new GeoLocation(lat, lng));
+           getNearbyUsers(lat,lng);
+       }
+       catch (Exception e){
+           e.printStackTrace();
+       }
 
     }
 
