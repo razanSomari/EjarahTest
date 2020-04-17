@@ -29,6 +29,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,6 +60,7 @@ public class homeFragment extends Fragment {
     private LocationRequest locationRequest;
     private String userId;
     String email;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     TextView userNameMenu, userEmailMenu;
     String currentUserEmail;
@@ -72,6 +74,8 @@ public class homeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View view  = inflater.inflate(R.layout.fragment_home,container,false);
+
+       setUpFirebaseListener();
 
        PostActivity.isPoster=false;
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -194,6 +198,7 @@ public class homeFragment extends Fragment {
                 i.putExtra("POST_ID", post.getPostID());
                 i.putExtra("EMAIL", post.getUsername());
                 i.putExtra("CAT", post.getCatogry());
+                i.putExtra("VIEWS", post.getViews()+1);
                 startActivity(i);
             }
         });
@@ -310,7 +315,35 @@ public class homeFragment extends Fragment {
         listView.setAdapter(adapter);
 
     }
+    public void onStart(){
+        super.onStart();
 
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListener);
+    }
+
+    //----------------------------------------------------------------------
+    @Override
+    public void onStop(){
+        super.onStop();
+        if(mAuthStateListener!=null)
+            FirebaseAuth.getInstance().removeAuthStateListener(mAuthStateListener);
+    }
+
+    //----------------------------------------------------------------------
+    private void setUpFirebaseListener(){
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null ){
+                    Intent intent = new Intent(getActivity(), LogIn.class);
+                    startActivity(intent);
+                }
+
+
+            }
+        };
+    }
 
 }
 

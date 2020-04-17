@@ -16,6 +16,7 @@ public class Post {
     private String userid;
     private String catogry;
     private Image pic;
+    private int views;
     private String features;
     private ArrayList<Double> location;
 
@@ -44,6 +45,7 @@ public class Post {
         this.name=name;
         this.location = location;
         this.catogry = catogry;
+        views=0;
     }
     public Post( String username, String content, String tag,String name, String catogry ) {
 
@@ -140,6 +142,14 @@ public class Post {
 
     public String getFeatures() {
         return features;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 }
 

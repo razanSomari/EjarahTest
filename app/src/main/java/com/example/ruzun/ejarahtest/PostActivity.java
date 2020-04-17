@@ -30,6 +30,7 @@ public class PostActivity extends AppCompatActivity {
     TextView textViewName;
     TextView textViewContent;
     TextView commentsCount;
+    TextView postViewsCount;
 
     FirebaseAuth mFirebaseAuth;
     FirebaseDatabase firebaseDatabase;
@@ -47,7 +48,10 @@ public class PostActivity extends AppCompatActivity {
     final ArrayList<Post> replays = new ArrayList<Post>();
     static ArrayList<Level> levels = new ArrayList<Level>();
 
+    Post currentPost;
     Map<String, Integer> UserTotalPoints = new HashMap<>();
+
+    boolean isFirstTimeToSetViewCount = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +70,9 @@ public class PostActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.replay_list);
 
 
+
         //getting post information from previous activity
-        String content;
+        String content, views;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
@@ -76,12 +81,15 @@ public class PostActivity extends AppCompatActivity {
                 postID="";
                 postEmail ="";
                 postCategory = "";
+                views ="";
+
             } else {
                 content = extras.getString("CONTENT");
                 name = extras.getString("NAME");
                 postID = extras.getString("POST_ID");
                 postEmail = extras.getString("EMAIL");
                 postCategory = extras.getString("CAT");
+                views =  extras.getString("VIEWS");
             }
         } else {
             content= (String) savedInstanceState.getSerializable("CONTENT");
@@ -89,8 +97,11 @@ public class PostActivity extends AppCompatActivity {
             postID = (String) savedInstanceState.getSerializable("POST_ID");
             postEmail = (String) savedInstanceState.getSerializable("EMAIL");
             postCategory = (String) savedInstanceState.getSerializable("CAT");
+            views = (String) savedInstanceState.getSerializable("VIEWS");
 
         }
+
+
 
         if(postEmail!=null){
             if (postEmail.equals(email))
@@ -103,9 +114,27 @@ public class PostActivity extends AppCompatActivity {
 
         textViewName = findViewById(R.id.textViewPostUsername);
         textViewContent = findViewById(R.id.TextViewPostContent);
+        postViewsCount = findViewById(R.id.TextViewPostViews);
 
         textViewName.setText(name);
         textViewContent.setText(content);
+
+
+        databaseReference.child("Post").child(postID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentPost = dataSnapshot.getValue(Post.class);
+                setViewsCount();
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
 
         if (postCategory!=null){
@@ -258,5 +287,22 @@ public class PostActivity extends AppCompatActivity {
             }
             i++;
         }
+    }
+
+
+    public void setViewsCount(){
+        if(isFirstTimeToSetViewCount){
+            postViewsCount.setText((currentPost.getViews()+1)+"");
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Post").child(postID);
+            mDatabase.child("views").setValue(currentPost.getViews()+1);
+            isFirstTimeToSetViewCount= false;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        isPoster=false;
     }
 }

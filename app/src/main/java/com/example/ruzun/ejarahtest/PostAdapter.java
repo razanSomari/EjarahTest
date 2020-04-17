@@ -57,11 +57,15 @@ public class PostAdapter <T> extends ArrayAdapter<Post> {
 
         ImageView thumpUp = (ImageView) listItemView.findViewById(R.id.textview_thump_up);
 
-        if (!PostActivity.isPoster)
-            thumpUp.setVisibility(View.GONE);
+        if(getContext().getClass()==PostActivity.class)
+        {
+            if (!PostActivity.isPoster)
+                thumpUp.setVisibility(View.GONE);
+            else
+                thumpUp.setImageResource(R.drawable.ic_thumb_up_24dp);
+        }
         else
-            thumpUp.setImageResource(R.drawable.ic_thumb_up_24dp);
-
+            thumpUp.setVisibility(View.GONE);
 
         thumpUp.setOnClickListener(new View.OnClickListener(){
             //------------------------Inner class ----------------------------------//
