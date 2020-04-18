@@ -120,6 +120,7 @@ public class categoriesAdapter extends ArrayAdapter<String> {
                         }
                         else{
                             progressBar1.setProgress(0);
+                            myLevel.setText(0+"");
                         }
 
                     }
