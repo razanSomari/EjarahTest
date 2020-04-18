@@ -8,6 +8,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -19,51 +28,67 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class categoriesAdapter extends ArrayAdapter<String> {
 
      int count = 0 ;
-     FirebaseAuth mFirebaseAuth;
-     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-     DatabaseReference databaseReference = firebaseDatabase.getReference();
+     int max =100;
+
     Context context;
     String rTitle[];
     int rImgs[];
-    ProgressBar progressBar ;
 
+    ProgressBar progressBar;
 
-    String email;
     User currentUser;
+    String email;
+    public static Map<String, Integer> userPoints = new HashMap<>();
+    FirebaseAuth mFirebaseAuth;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-    static ArrayList<Level> levels = new ArrayList<Level>();
+
+
 
     categoriesAdapter (Context c, String[] title, int[] imgs, ProgressBar bar  ) {
         super(c, R.layout.categories_level, R.id.textView1, title);
+        setCurrentUserPoints();
 
         this.context = c;
         this.rTitle = title;
         this.rImgs = imgs;
         this.progressBar = bar ;
 
+
+
+    }
+
+    void setCurrentUserPoints(){
+
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        email = mFirebaseAuth.getCurrentUser().getEmail();
         View listItemView = convertView;
         if (listItemView==null){
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.categories_level, parent, false);
         }
 
+        String s = getItem(position);
         ImageView images = listItemView.findViewById(R.id.image);
         TextView myTitle = listItemView.findViewById(R.id.textView1);
+        final TextView myLevel = listItemView.findViewById(R.id.level);
+
         final ProgressBar progressBar1 = listItemView.findViewById(R.id.bar);
-
-
-
+        progressBar1.setMax(max);
 
         databaseReference.child("User").addValueEventListener(new ValueEventListener() {
             @Override
@@ -82,32 +107,23 @@ public class categoriesAdapter extends ArrayAdapter<String> {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()){
 
                             Level level = snapshot.getValue(Level.class);
-                            levels.add(level);
-                            count =  level.getPoints();
-                            progressBar1.setProgress(count);
+                            userPoints.put(level.getCategory(), level.getPoints());
+                        }
 
+                        if(userPoints.get(rTitle[position].toLowerCase())!=null){
+                            int points = userPoints.get(rTitle[position].toLowerCase());
+                            int level = points/max;
+                            int progress = points%max;
+                            progressBar1.setProgress(progress);
+                            myLevel.setText(level+"");
 
-
-
-
-
-
-
-
-
-
-
-/*
-
-                            progressBar1.setMax(100);
-                            progressBar1.setProgress(level.getPoints());
-*/
-
-
-
+                        }
+                        else{
+                            progressBar1.setProgress(0);
                         }
 
                     }
+
 
 
                     @Override
@@ -125,6 +141,9 @@ public class categoriesAdapter extends ArrayAdapter<String> {
         });
 
 
+
+
+
         // now set our resources on views
         images.setImageResource(rImgs[position]);
         myTitle.setText(rTitle[position]);
@@ -135,4 +154,6 @@ public class categoriesAdapter extends ArrayAdapter<String> {
 
         return listItemView;
     }
+
+
 }

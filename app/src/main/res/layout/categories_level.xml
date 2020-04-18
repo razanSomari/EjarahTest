@@ -34,16 +34,31 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/bar"
+    <FrameLayout
+        android:indeterminate="false"
+        android:layout_width="80dp"
         android:layout_margin="5dp"
         android:layout_marginLeft="20dp"
-        android:layout_width="80dp"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_height="80dp"
-        android:background="@drawable/circle_shape"
-        android:indeterminate="false"
-        android:progressDrawable="@drawable/circle_progress_bar" />
+        android:layout_height="80dp">
+        <ProgressBar
+            android:id="@+id/bar"
+            android:layout_width="80dp"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_height="80dp"
+            android:background="@drawable/circle_shape"
+            android:progressDrawable="@drawable/circle_progress_bar" >
+        </ProgressBar>
+
+        <TextView
+            android:text="0"
+            android:id="@+id/level"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </FrameLayout>
 
 
 
