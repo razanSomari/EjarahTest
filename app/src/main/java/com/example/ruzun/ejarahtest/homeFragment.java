@@ -165,6 +165,8 @@ public class homeFragment extends Fragment {
             }
 
 
+
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -205,13 +207,13 @@ public class homeFragment extends Fragment {
         });
 
         return view ;
-
-
     }
+
+
     public void callPermissions(){
-        //request location permission
         String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION};
-        Permissions.check(getActivity(), permissions, "Location is required to use Ejarah", new Permissions.Options().setSettingsDialogMessage("Warning").setRationaleDialogTitle("Info"), new PermissionHandler() {
+        Permissions.check(getActivity(), permissions, "Location is required to use Ejarah",
+                new Permissions.Options().setSettingsDialogMessage("Warning").setRationaleDialogTitle("Info"), new PermissionHandler() {
             @Override
             public void onGranted() {
                 requestLocationUpdates();
@@ -226,13 +228,12 @@ public class homeFragment extends Fragment {
     }
 
     public void requestLocationUpdates(){
-        //update location periodically
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(2000); //request location every 5 min 300000
-        locationRequest.setFastestInterval(2000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //drains battery
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(10000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         fusedLocationClient.requestLocationUpdates(locationRequest,new LocationCallback(){
             @Override
@@ -244,74 +245,20 @@ public class homeFragment extends Fragment {
                 setUserLocation(lat,lng);
             }
         }, getActivity().getMainLooper());
-
-
     }
+
+
     public void setUserLocation(Double lat, Double lng){
-        //inserting into database!
        try{
            userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
            databaseReference= FirebaseDatabase.getInstance().getReference("userLocation");
            GeoFire geoFire=new GeoFire(databaseReference);
            geoFire.setLocation(userId, new GeoLocation(lat, lng));
-           getNearbyUsers(lat,lng);
        }
        catch (Exception e){
            e.printStackTrace();
        }
 
-    }
-
-    public void getNearbyUsers(Double lat, Double lng){
-        userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
-        int radius=1;
-
-        DatabaseReference nearbyDatabaseReference= FirebaseDatabase.getInstance().getReference().child("userLocation");
-        GeoFire geoFire=new GeoFire(nearbyDatabaseReference);
-
-
-
-        GeoQuery geoQuery=geoFire.queryAtLocation(new GeoLocation(lat, lng),radius); //users in a 30 kilometers radius
-        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
-            @Override
-            public void onKeyEntered(String key, GeoLocation location) {
-                //Key Entered: The location of a key now matches the query criteria.
-                //key is userID nearby, location is users location
-                //
-                if(!key.equals(userId)){
-
-                    //get all nearby users except me
-                    //array list of posts attached to key
-                }
-
-            }
-
-            @Override
-            public void onKeyExited(String key) {
-                //Key Exited: The location of a key no longer matches the query criteria.
-                //the user has existed the radius
-                //remove posts from array list
-            }
-
-            @Override
-            public void onKeyMoved(String key, GeoLocation location) {
-                //Key Moved: The location of a key changed but the location still matches the query criteria.
-                //user is moving but is still within radius
-                //don't think we'll need this
-            }
-
-            @Override
-            public void onGeoQueryReady() {
-                //Query Ready: All current data has been loaded from the server and all initial events have been fired.
-                //don't think we'll need this
-            }
-
-            @Override
-            public void onGeoQueryError(DatabaseError error) {
-                //Query Error: There was an error while performing this query, e.g. a violation of security rules.
-                //don't think we'll need this
-            }
-        });
     }
 
     void dispaly(){
