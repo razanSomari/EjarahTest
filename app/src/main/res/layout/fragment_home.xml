@@ -8,7 +8,10 @@
     android:fitsSystemWindows="true">
 
 
-
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <ListView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,6 +27,8 @@
         android:id="@+id/post_list">
 
     </ListView>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ImageView
         android:id="@+id/createPost"

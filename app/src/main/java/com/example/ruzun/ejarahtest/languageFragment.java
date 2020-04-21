@@ -64,7 +64,7 @@ public class languageFragment extends Fragment {
         AlertDialog mDialog=mBuilder.create();
 
         mDialog.show();
-
+//save data to shared preferences
     }
 
     public void setLocale(String lang){
@@ -72,8 +72,8 @@ public class languageFragment extends Fragment {
         Locale.setDefault(locale);
         Configuration config=new Configuration();
         config.locale=locale;
-        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
-        //save data to shared preferences
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity()
+                .getBaseContext().getResources().getDisplayMetrics());
         SharedPreferences.Editor editor=getActivity().getSharedPreferences("Settings", Activity.MODE_PRIVATE).edit();
         editor.putString("My_Lang",lang);
         editor.apply();

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,6 +70,9 @@ public class homeFragment extends Fragment {
     Map<String, Integer> UserTotalPoints = new HashMap<>();
 
     User currentUser;
+    SwipeRefreshLayout swipeRefreshLayout;
+    boolean remove;
+    PostAdapter<Post> adapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +86,7 @@ public class homeFragment extends Fragment {
 
         createPost = view.findViewById(R.id.createPost);
         email = mFirebaseAuth.getCurrentUser().getEmail();
-
+        swipeRefreshLayout=view.findViewById(R.id.swipeRefreshLayout);
 
         createPost.setOnClickListener(new View.OnClickListener(){
 
@@ -160,19 +164,24 @@ public class homeFragment extends Fragment {
                         }
                         posts.add(post);
                         dispaly();
+
                     }
+
                 }
             }
-
-
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getActivity().recreate();
+              
+            }
+        });
 
 
 
@@ -207,6 +216,17 @@ public class homeFragment extends Fragment {
         });
 
         return view ;
+    }
+
+    private void setAdapter(PostAdapter<Post> adapter) {
+        this.adapter=adapter;
+    }
+    private PostAdapter<Post> getAdapter(){
+        return adapter;
+    }
+
+    private void updateTimeline(PostAdapter<Post> adapter) {
+            adapter.notifyDataSetChanged();
     }
 
 
@@ -264,9 +284,14 @@ public class homeFragment extends Fragment {
     void dispaly(){
         Collections.reverse(posts);
         PostAdapter<Post> adapter = new PostAdapter<Post>(getContext(),posts);
-
         listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        notifyOutOfRange(adapter);
 
+    }
+
+    void notifyOutOfRange(PostAdapter<Post> adapter){
+        adapter.notifyDataSetChanged();
     }
     public void onStart(){
         super.onStart();
@@ -297,6 +322,7 @@ public class homeFragment extends Fragment {
             }
         };
     }
+
 
 }
 

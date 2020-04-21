@@ -56,20 +56,6 @@ public class searchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        String apiKey = getString(R.string.api_key);
-
-// Initialize Places.
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), apiKey);
-        }
-
-// Initialize the AutocompleteSupportFragment.
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-
         noResults=findViewById(R.id.search_no_results);
         result=findViewById(R.id.search_result_text);
         searchResults=findViewById(R.id.search_results_rc);
@@ -81,6 +67,18 @@ public class searchActivity extends AppCompatActivity {
         searchResults.setHasFixedSize(true);
         mLayoutManager=new LinearLayoutManager(this);
         searchResults.setLayoutManager(mLayoutManager);
+
+        String apiKey = getString(R.string.api_key);
+
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), apiKey);
+        }
+
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
 
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -116,10 +114,6 @@ public class searchActivity extends AppCompatActivity {
                             if(features.contains(" "))
                                 features.remove(" ");
 
-// for(String i:features){
-// Log.e("features "," feature are:"+i);
-// }
-//Log.e("features "," feature are:"+features.size());
 
                             for(String i:features){
 //transfer features arraylist contents to frequencyHash
