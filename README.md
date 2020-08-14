@@ -1,5 +1,5 @@
 # Development of a Mobile Application for Help Request Using the Principle of Crowdsourcing: Ejarah
-A location-based application that uses the concept of crowdsourcing to allow a group of people of the same or different skills to colaporate to solve a given problem. The application uses a text classification algorithm to classify posts into category depending on their topic to use in a **points system** to award users for their contributions. The application has a **search function** that uses data from prevouis users to attach the most frequently requested items to the location they were posted at, the items are used to recommend to users when searching for a location.
+A location-based application that uses the concept of crowdsourcing to allow a group of people of the same or different skills to colaporate to solve a given problem. The application uses a text classification algorithm to classify posts into categories depending on their topic to use in a **points system** to award users for their contributions. The application has a **search function** that uses data from prevouis users to attach the most frequently requested items to the location they were posted at, the items are used to recommend to users when searching for a location.
 
 **Timeline**: the timeline contains posts that were posted 5 kilometers around the users current location.
 
