@@ -17,8 +17,7 @@ A location-based application that uses the concept of crowdsourcing to allow a g
 - Android SDK.
 - Programming languages: Java, XML and Python. 
 - Firebase Realtime Database. 
-- Googles Autocomplete API. 
-- Google Maps Platform (Places API)
+- Google Places Autocomplete API. 
 - TensorFlow.
 - Jupyter notebook.
 - Libraries: Keras, nltk, Scikit-Learn, Numpy and Pandas. 
