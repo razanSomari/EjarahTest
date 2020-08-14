@@ -13,3 +13,13 @@ A location-based application that uses the concept of crowdsourcing to allow a g
 
 **Search function**: the search function allows a user to search for a specific location, the application will then display a list of the items that the user might need there, based on data from previous users.
 
+## Tools used:
+- Android SDK.
+- Programming languages: Java, XML and Python. 
+- Firebase Realtime Database. 
+- Googles Autocomplete API. 
+- Google Maps Platform (Places API)
+- TensorFlow.
+- Jupyter notebook.
+- Libraries: Keras, nltk, Scikit-Learn, Numpy and Pandas. 
+- GitHub (Version control).
